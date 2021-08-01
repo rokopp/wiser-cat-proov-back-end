@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,7 +20,17 @@ public class Filter {
     @Column(length = 30)
     private String filterName;
 
-    public Filter(String filterName) {
+    public Filter(String filterName, List<Amount> amounts) {
         this.filterName = filterName;
+        this.amounts = amounts;
     }
+
+    @OneToMany(mappedBy = "filter")
+    private List<Amount> amounts;
+
+    @OneToMany(mappedBy = "filter")
+    private List<Title> titles;
+
+    @OneToMany(mappedBy = "filter")
+    private List<Date> dates;
 }

@@ -48,6 +48,11 @@ public class FilterServiceImpl implements FilterService{
     }
 
     @Override
+    public Optional<Filter> getFilterObjectById(Long id) {
+        return filterRepository.findById(id);
+    }
+
+    @Override
     public Optional<List<FilterDTO>> getAllFilters() {
         List<Filter> filters = filterRepository.findAll();
         if (filters.isEmpty()) return Optional.empty();

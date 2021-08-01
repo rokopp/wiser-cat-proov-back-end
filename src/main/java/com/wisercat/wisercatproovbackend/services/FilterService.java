@@ -14,6 +14,8 @@ public interface FilterService {
 
     Optional<FilterDTO> getFilterByFilterName(String filterName);
 
+    Optional<Filter> getFilterObjectById(Long id);
+
     Optional<List<FilterDTO>> getAllFilters();
 
     Boolean deleteFilter(Long id);

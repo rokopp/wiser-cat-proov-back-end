@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS amount (
-                                            id              SERIAL PRIMARY KEY,
-                                            filter_id      INT NOT NULL,
-                                            compare_condition			VARCHAR(20) NOT NULL,
+    id                  SERIAL PRIMARY KEY,
+    filter_id           INT NOT NULL,
+    compare_condition   VARCHAR(20) NOT NULL,
     FOREIGN KEY (filter_id)
     REFERENCES filter (id) ON DELETE CASCADE
     );
