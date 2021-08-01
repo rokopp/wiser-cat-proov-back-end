@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  users-service-db:
+    image: postgres:12-alpine
+    volumes:
+      - ./docker/testing-db.sql:/docker-entrypoint-initdb.d/testing-db.sql
+    ports:
+      - 5632:5432
+    environment:
+      - POSTGRES_DB=filterdb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root

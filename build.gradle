@@ -1,7 +1,10 @@
+import org.flywaydb.gradle.task.*
+
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.flywaydb.flyway" version "7.0.4"
 }
 
 group = 'com.wisercat'
@@ -16,6 +19,20 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+task flywayCleanRealDb(type: FlywayCleanTask) {
+    url = 'jdbc:postgresql://localhost:5632/filterdb'
+    user = 'root'
+    password = 'root'
+    locations = ['filesystem:src/main/resources/db/migration']
+}
+
+task flywayMigrateRealDb(type: FlywayMigrateTask) {
+    url = 'jdbc:postgresql://localhost:5632/filterdb'
+    user = 'root'
+    password = 'root'
+    locations = ['filesystem:src/main/resources/db/migration']
 }
 
 dependencies {
