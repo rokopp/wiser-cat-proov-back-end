@@ -1,5 +1,6 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
+import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
 import com.wisercat.wisercatproovbackend.services.DateServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,14 @@ import java.util.Optional;
 public class DateController {
 
     private final DateServiceImpl dateService;
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<DateDTO> saveDate(@RequestBody DateDTO dateDTO) {
+        Optional<DateDTO> date = dateService.saveDate(dateDTO);
+        if (date.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(date.get(), HttpStatus.CREATED);
+    }
 
     @GetMapping
     @ResponseBody

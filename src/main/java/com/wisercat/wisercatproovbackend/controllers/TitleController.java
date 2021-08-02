@@ -1,6 +1,7 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
 import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
+import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
 import com.wisercat.wisercatproovbackend.services.TitleServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,14 @@ import java.util.Optional;
 public class TitleController {
 
     private final TitleServiceImpl titleService;
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<TitleDTO> saveTitle(@RequestBody TitleDTO titleDTO) {
+        Optional<TitleDTO> title = titleService.saveTitle(titleDTO);
+        if (title.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(title.get(), HttpStatus.CREATED);
+    }
 
     @GetMapping
     @ResponseBody
