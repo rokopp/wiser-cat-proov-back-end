@@ -8,6 +8,8 @@ import lombok.Setter;
 public class AmountDTO {
 
     private Long id;
+    private String type;
     private String compareCondition;
     private Long filterId;
+    private Long number;
 }

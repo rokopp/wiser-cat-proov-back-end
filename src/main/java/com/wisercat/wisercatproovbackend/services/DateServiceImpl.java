@@ -1,7 +1,7 @@
 package com.wisercat.wisercatproovbackend.services;
 
 import com.wisercat.wisercatproovbackend.database.Date;
-import com.wisercat.wisercatproovbackend.database.Title;
+import com.wisercat.wisercatproovbackend.database.Filter;
 import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
 import com.wisercat.wisercatproovbackend.repositories.DateRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,30 @@ import java.util.stream.Collectors;
 public class DateServiceImpl implements DateService {
 
     private final DateRepository dateRepository;
+    private final FilterServiceImpl filterService;
 
     @Override
-    public Optional<DateDTO> createDate(DateDTO dateDTO) {
-        return Optional.empty();
+    public Optional<DateDTO> saveDate(DateDTO dateDTO) {
+        try {
+            Optional<Filter> filter = filterService.getFilterObjectById(dateDTO.getFilterId());
+            if (filter.isEmpty()) return Optional.empty();
+
+            Date date = new Date();
+            date.setCompareCondition(dateDTO.getCompareCondition());
+            date.setType(dateDTO.getType());
+            date.setDate(dateDTO.getDate());
+
+            Filter filter1 = new Filter();
+            filter1.setId(dateDTO.getFilterId());
+            date.setFilter(filter1);
+
+            Date savedDate = dateRepository.save(date);
+
+            return Optional.of(convertToDateDTO(savedDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -54,6 +74,8 @@ public class DateServiceImpl implements DateService {
         dateDTO.setCompareCondition(date.getCompareCondition());
         dateDTO.setId(date.getId());
         dateDTO.setFilterId(date.getFilter().getId());
+        dateDTO.setType(date.getType());
+        dateDTO.setDate(date.getDate());
 
         return dateDTO;
     }

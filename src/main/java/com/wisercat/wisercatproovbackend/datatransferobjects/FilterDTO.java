@@ -12,7 +12,7 @@ public class FilterDTO {
     private Long id;
     private String filterName;
     private List<AmountDTO> amounts;
-//    private List<TitleDTO> titles;
-//    private List<DateDTO> dates;
+    private List<TitleDTO> titles;
+    private List<DateDTO> dates;
 
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface DateService {
 
-    Optional<DateDTO> createDate(DateDTO dateDTO);
+    Optional<DateDTO> saveDate(DateDTO dateDTO);
 
     Optional<DateDTO> updateDate(DateDTO dateDTO);
 

@@ -20,11 +20,6 @@ public class Filter {
     @Column(length = 30)
     private String filterName;
 
-    public Filter(String filterName, List<Amount> amounts) {
-        this.filterName = filterName;
-        this.amounts = amounts;
-    }
-
     @OneToMany(mappedBy = "filter")
     private List<Amount> amounts;
 

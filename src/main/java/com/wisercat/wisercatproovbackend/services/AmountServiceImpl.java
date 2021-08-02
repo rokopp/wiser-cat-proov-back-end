@@ -25,8 +25,13 @@ public class AmountServiceImpl implements AmountService {
             if (filter.isEmpty()) return Optional.empty();
 
             Amount amount = new Amount();
-//            amount.setFilter(amountDTO.getFilterId());
             amount.setCompareCondition(amountDTO.getCompareCondition());
+            amount.setType(amountDTO.getType());
+            amount.setNumber(amountDTO.getNumber());
+
+            Filter filter1 = new Filter();
+            filter1.setId(amountDTO.getFilterId());
+            amount.setFilter(filter1);
 
             Amount savedAmount = amountRepository.save(amount);
 
@@ -69,10 +74,11 @@ public class AmountServiceImpl implements AmountService {
 
     private AmountDTO convertToAmountDTO(Amount amount) {
         AmountDTO amountDTO = new AmountDTO();
-        amountDTO.setId(amount.getFilter().getId());
-        amountDTO.setCompareCondition(amount.getCompareCondition());
         amountDTO.setId(amount.getId());
+        amountDTO.setCompareCondition(amount.getCompareCondition());
         amountDTO.setFilterId(amount.getFilter().getId());
+        amountDTO.setType(amount.getType());
+        amountDTO.setNumber(amount.getNumber());
 
         return amountDTO;
     }

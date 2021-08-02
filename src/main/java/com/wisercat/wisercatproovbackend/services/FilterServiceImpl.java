@@ -1,7 +1,13 @@
 package com.wisercat.wisercatproovbackend.services;
 
+import com.wisercat.wisercatproovbackend.database.Amount;
+import com.wisercat.wisercatproovbackend.database.Date;
 import com.wisercat.wisercatproovbackend.database.Filter;
+import com.wisercat.wisercatproovbackend.database.Title;
+import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
+import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.FilterDTO;
+import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
 import com.wisercat.wisercatproovbackend.repositories.FilterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,6 +80,57 @@ public class FilterServiceImpl implements FilterService{
         filterDTO.setFilterName(filter.getFilterName());
         filterDTO.setId(filter.getId());
 
+        List<Amount> amounts = filter.getAmounts();
+        if (amounts == null) filterDTO.setAmounts(List.of());
+        else filterDTO.setAmounts(filter.getAmounts().stream()
+                .map(this::convertToAmountDTO).collect(Collectors.toList()));
+
+        List<Title> titles = filter.getTitles();
+        if (titles == null) filterDTO.setTitles(List.of());
+        else filterDTO.setTitles(filter.getTitles().stream()
+                .map(this::convertToTitleDTO).collect(Collectors.toList()));
+
+        List<Date> dates = filter.getDates();
+        if (dates == null) filterDTO.setDates(List.of());
+        else filterDTO.setDates(filter.getDates().stream()
+                .map(this::convertToDateDTO).collect(Collectors.toList()));
+
         return filterDTO;
+    }
+
+    private AmountDTO convertToAmountDTO(Amount amount) {
+        AmountDTO amountDTO = new AmountDTO();
+        amountDTO.setId(amount.getFilter().getId());
+        amountDTO.setCompareCondition(amount.getCompareCondition());
+        amountDTO.setId(amount.getId());
+        amountDTO.setFilterId(amount.getFilter().getId());
+        amountDTO.setType(amount.getType());
+        amountDTO.setNumber(amount.getNumber());
+
+        return amountDTO;
+    }
+
+    private TitleDTO convertToTitleDTO(Title title) {
+        TitleDTO titleDTO = new TitleDTO();
+        titleDTO.setId(title.getFilter().getId());
+        titleDTO.setCompareCondition(title.getCompareCondition());
+        titleDTO.setId(title.getId());
+        titleDTO.setFilterId(title.getFilter().getId());
+        titleDTO.setType(title.getType());
+        titleDTO.setText(title.getText());
+
+        return titleDTO;
+    }
+
+    private DateDTO convertToDateDTO(Date date) {
+        DateDTO dateDTO = new DateDTO();
+        dateDTO.setId(date.getFilter().getId());
+        dateDTO.setCompareCondition(date.getCompareCondition());
+        dateDTO.setId(date.getId());
+        dateDTO.setFilterId(date.getFilter().getId());
+        dateDTO.setType(date.getType());
+        dateDTO.setDate(date.getDate());
+
+        return dateDTO;
     }
 }

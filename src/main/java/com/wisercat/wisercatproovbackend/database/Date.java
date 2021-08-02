@@ -17,7 +17,13 @@ public class Date {
     private Long id;
 
     @Column(length = 20)
+    private String type;
+
+    @Column(length = 20)
     private String compareCondition;
+
+    @Temporal(TemporalType.DATE)
+    private java.util.Date date;
 
     @ManyToOne
     @JoinColumn(name = "filter_id")

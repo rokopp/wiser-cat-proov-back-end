@@ -17,7 +17,13 @@ public class Title {
     private Long id;
 
     @Column(length = 20)
+    private String type;
+
+    @Column(length = 20)
     private String compareCondition;
+
+    @Column(length = 254)
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "filter_id")

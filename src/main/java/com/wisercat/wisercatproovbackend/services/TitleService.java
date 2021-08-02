@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface TitleService {
 
-    Optional<TitleDTO> createTitle(TitleDTO titleDTO);
+    Optional<TitleDTO> saveTitle(TitleDTO titleDTO);
 
     Optional<TitleDTO> updateTitle(TitleDTO titleDTO);
 

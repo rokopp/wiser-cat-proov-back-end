@@ -1,6 +1,6 @@
 package com.wisercat.wisercatproovbackend.services;
 
-import com.wisercat.wisercatproovbackend.database.Amount;
+import com.wisercat.wisercatproovbackend.database.Filter;
 import com.wisercat.wisercatproovbackend.database.Title;
 import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
 import com.wisercat.wisercatproovbackend.repositories.TitleRepository;
@@ -16,10 +16,30 @@ import java.util.stream.Collectors;
 public class TitleServiceImpl implements TitleService {
 
     private final TitleRepository titleRepository;
+    private final FilterServiceImpl filterService;
 
     @Override
-    public Optional<TitleDTO> createTitle(TitleDTO titleDTO) {
-        return Optional.empty();
+    public Optional<TitleDTO> saveTitle(TitleDTO titleDTO) {
+        try {
+            Optional<Filter> filter = filterService.getFilterObjectById(titleDTO.getFilterId());
+            if (filter.isEmpty()) return Optional.empty();
+
+            Title title = new Title();
+            title.setCompareCondition(titleDTO.getCompareCondition());
+            title.setType(titleDTO.getType());
+            title.setText(titleDTO.getText());
+
+            Filter filter1 = new Filter();
+            filter1.setId(titleDTO.getFilterId());
+            title.setFilter(filter1);
+
+            Title savedTitle = titleRepository.save(title);
+
+            return Optional.of(convertToTitleDTO(savedTitle));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -54,6 +74,8 @@ public class TitleServiceImpl implements TitleService {
         titleDTO.setCompareCondition(title.getCompareCondition());
         titleDTO.setId(title.getId());
         titleDTO.setFilterId(title.getFilter().getId());
+        titleDTO.setType(title.getType());
+        titleDTO.setText(title.getText());
 
         return titleDTO;
     }
