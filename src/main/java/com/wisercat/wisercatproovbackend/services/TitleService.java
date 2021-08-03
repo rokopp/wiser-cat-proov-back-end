@@ -16,4 +16,6 @@ public interface TitleService {
     Optional<List<TitleDTO>> getAllTitleByFilterId(Long filterId);
 
     Optional<List<TitleDTO>> getAllTitles();
+
+    Boolean deleteTitle(Long id);
 }

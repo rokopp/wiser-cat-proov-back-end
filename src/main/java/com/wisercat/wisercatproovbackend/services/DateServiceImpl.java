@@ -68,6 +68,14 @@ public class DateServiceImpl implements DateService {
         return Optional.empty();
     }
 
+    @Override
+    public Boolean deleteDate(Long id) {
+        Optional<Date> date = dateRepository.findById(id);
+        if (date.isEmpty()) return false;
+        dateRepository.deleteById(id);
+        return true;
+    }
+
     private DateDTO convertToDateDTO(Date date) {
         DateDTO dateDTO = new DateDTO();
         dateDTO.setId(date.getFilter().getId());

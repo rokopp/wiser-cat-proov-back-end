@@ -49,4 +49,12 @@ public class DateController {
         if (dates.isEmpty()) return new ResponseEntity<>(List.of(), HttpStatus.NO_CONTENT);
         return ResponseEntity.ok(dates.get());
     }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<Boolean> deleteDate(@PathVariable Long id) {
+        boolean deleted = dateService.deleteDate(id);
+        if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(true);
+    }
 }

@@ -41,4 +41,20 @@ public class FilterController {
         if (filter.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return ResponseEntity.ok(filter.get());
     }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<Boolean> deleteFilter(@PathVariable Long id) {
+        boolean deleted = filterService.deleteFilter(id);
+        if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("{filterName}")
+    @ResponseBody
+    public ResponseEntity<FilterDTO> getFilterByFilterName(@PathVariable String filterName) {
+        Optional<FilterDTO> filter = filterService.getFilterByFilterName(filterName);
+        if (filter.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(filter.get());
+    }
 }

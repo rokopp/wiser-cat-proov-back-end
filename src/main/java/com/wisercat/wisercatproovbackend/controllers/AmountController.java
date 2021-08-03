@@ -48,4 +48,12 @@ public class AmountController {
         if (amounts.isEmpty()) return new ResponseEntity<>(List.of(), HttpStatus.NO_CONTENT);
         return ResponseEntity.ok(amounts.get());
     }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<Boolean> deleteAmount(@PathVariable Long id) {
+        boolean deleted = amountService.deleteAmount(id);
+        if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(true);
+    }
 }

@@ -16,4 +16,7 @@ public interface DateService {
     Optional<List<DateDTO>> getAllDateByFilterId(Long filterId);
 
     Optional<List<DateDTO>> getAllDates();
+
+    Boolean deleteDate(Long id);
+
 }

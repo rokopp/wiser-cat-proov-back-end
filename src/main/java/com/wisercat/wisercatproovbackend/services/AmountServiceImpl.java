@@ -72,6 +72,14 @@ public class AmountServiceImpl implements AmountService {
                 .collect(Collectors.toList()));
     }
 
+    @Override
+    public Boolean deleteAmount(Long id) {
+        Optional<Amount> amount = amountRepository.findById(id);
+        if (amount.isEmpty()) return false;
+        amountRepository.deleteById(id);
+        return true;
+    }
+
     private AmountDTO convertToAmountDTO(Amount amount) {
         AmountDTO amountDTO = new AmountDTO();
         amountDTO.setId(amount.getId());

@@ -1,7 +1,5 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
-import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
-import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
 import com.wisercat.wisercatproovbackend.services.TitleServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +47,13 @@ public class TitleController {
         Optional<List<TitleDTO>> titles = titleService.getAllTitleByFilterId(filterId);
         if (titles.isEmpty()) return new ResponseEntity<>(List.of(), HttpStatus.NO_CONTENT);
         return ResponseEntity.ok(titles.get());
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<Boolean> deleteTitle(@PathVariable Long id) {
+        boolean deleted = titleService.deleteTitle(id);
+        if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(true);
     }
 }

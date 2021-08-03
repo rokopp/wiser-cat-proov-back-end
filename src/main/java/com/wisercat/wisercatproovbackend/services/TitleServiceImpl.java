@@ -64,6 +64,14 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
+    public Boolean deleteTitle(Long id) {
+        Optional<Title> title = titleRepository.findById(id);
+        if (title.isEmpty()) return false;
+        titleRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
     public Optional<List<TitleDTO>> getAllTitles() {
         return Optional.empty();
     }

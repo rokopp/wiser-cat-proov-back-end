@@ -16,4 +16,7 @@ public interface AmountService {
     Optional<List<AmountDTO>> getAmountByFilterId(Long filterId);
 
     Optional<List<AmountDTO>> getAllAmounts();
+
+    Boolean deleteAmount(Long id);
+
 }
