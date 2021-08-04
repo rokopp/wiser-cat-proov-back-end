@@ -18,5 +18,7 @@ public interface FilterService {
 
     Optional<List<FilterDTO>> getAllFilters();
 
+    Optional<FilterDTO> updateFilter(FilterDTO filterDTO);
+
     Boolean deleteFilter(Long id);
 }

@@ -1,6 +1,5 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
-import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.FilterDTO;
 import com.wisercat.wisercatproovbackend.services.FilterServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +53,14 @@ public class FilterController {
     @ResponseBody
     public ResponseEntity<FilterDTO> getFilterByFilterName(@PathVariable String filterName) {
         Optional<FilterDTO> filter = filterService.getFilterByFilterName(filterName);
+        if (filter.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(filter.get());
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<FilterDTO> updateFilter(@RequestBody FilterDTO filterDTO) {
+        Optional<FilterDTO> filter = filterService.updateFilter(filterDTO);
         if (filter.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return ResponseEntity.ok(filter.get());
     }

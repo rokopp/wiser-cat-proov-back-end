@@ -30,6 +30,7 @@ public class FilterServiceImpl implements FilterService{
 
             Filter filter = new Filter();
             filter.setFilterName(filterDTO.getFilterName());
+            filter.setSelectedFilter(filterDTO.getSelectedFilter());
 
             Filter savedFilter = filterRepository.save(filter);
             return Optional.of(convertFilterToDto(savedFilter));
@@ -68,6 +69,28 @@ public class FilterServiceImpl implements FilterService{
     }
 
     @Override
+    public Optional<FilterDTO> updateFilter(FilterDTO filterDTO) {
+        try {
+            Optional<Filter> filterOptional = filterRepository.findById(filterDTO.getId());
+            if (filterOptional.isEmpty()) return Optional.empty();
+            Filter filter = filterOptional.get();
+
+            String filterName = filterDTO.getFilterName();
+            Long selectedFilter = filterDTO.getSelectedFilter();
+
+            if (filterName != null) filter.setFilterName(filterName);
+            if (selectedFilter != null) filter.setSelectedFilter(selectedFilter);
+
+            Filter savedFilter = filterRepository.save(filter);
+
+            return Optional.of(convertFilterToDto(savedFilter));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Boolean deleteFilter(Long id) {
         Optional<Filter> filter = filterRepository.findById(id);
         if (filter.isEmpty()) return false;
@@ -79,6 +102,7 @@ public class FilterServiceImpl implements FilterService{
         FilterDTO filterDTO = new FilterDTO();
         filterDTO.setFilterName(filter.getFilterName());
         filterDTO.setId(filter.getId());
+        filterDTO.setSelectedFilter(filter.getSelectedFilter());
 
         List<Amount> amounts = filter.getAmounts();
         if (amounts == null) filterDTO.setAmounts(List.of());

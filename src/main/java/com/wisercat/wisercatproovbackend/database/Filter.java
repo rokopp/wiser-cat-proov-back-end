@@ -20,6 +20,9 @@ public class Filter {
     @Column(length = 30)
     private String filterName;
 
+    @Column
+    private Long selectedFilter;
+
     @OneToMany(mappedBy = "filter")
     private List<Amount> amounts;
 
