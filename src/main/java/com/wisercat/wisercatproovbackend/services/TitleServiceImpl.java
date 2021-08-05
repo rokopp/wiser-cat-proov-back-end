@@ -94,7 +94,7 @@ public class TitleServiceImpl implements TitleService {
         return Optional.empty();
     }
 
-    private TitleDTO convertToTitleDTO(Title title) {
+    public TitleDTO convertToTitleDTO(Title title) {
         TitleDTO titleDTO = new TitleDTO();
         titleDTO.setId(title.getFilter().getId());
         titleDTO.setCompareCondition(title.getCompareCondition());

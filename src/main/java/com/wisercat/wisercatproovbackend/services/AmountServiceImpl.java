@@ -97,7 +97,7 @@ public class AmountServiceImpl implements AmountService {
         return true;
     }
 
-    private AmountDTO convertToAmountDTO(Amount amount) {
+    public AmountDTO convertToAmountDTO(Amount amount) {
         AmountDTO amountDTO = new AmountDTO();
         amountDTO.setId(amount.getId());
         amountDTO.setCompareCondition(amount.getCompareCondition());

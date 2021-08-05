@@ -94,7 +94,7 @@ public class DateServiceImpl implements DateService {
         return true;
     }
 
-    private DateDTO convertToDateDTO(Date date) {
+    public DateDTO convertToDateDTO(Date date) {
         DateDTO dateDTO = new DateDTO();
         dateDTO.setId(date.getFilter().getId());
         dateDTO.setCompareCondition(date.getCompareCondition());
