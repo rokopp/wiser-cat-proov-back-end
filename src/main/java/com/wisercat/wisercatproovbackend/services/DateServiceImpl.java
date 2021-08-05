@@ -1,5 +1,6 @@
 package com.wisercat.wisercatproovbackend.services;
 
+import com.wisercat.wisercatproovbackend.database.Amount;
 import com.wisercat.wisercatproovbackend.database.Date;
 import com.wisercat.wisercatproovbackend.database.Filter;
 import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
@@ -44,7 +45,24 @@ public class DateServiceImpl implements DateService {
 
     @Override
     public Optional<DateDTO> updateDate(DateDTO dateDTO) {
-        return Optional.empty();
+        try {
+            Optional<Date> dateOptional = dateRepository.findById(dateDTO.getId());
+            if (dateOptional.isEmpty()) return Optional.empty();
+            Date date = dateOptional.get();
+
+            String dateCompareCondition = dateDTO.getCompareCondition();
+            java.util.Date dateCompareDate = dateDTO.getDate();
+
+            if (dateCompareCondition != null) date.setCompareCondition(dateCompareCondition);
+            if (dateCompareDate != null) date.setDate(dateCompareDate);
+
+            Date savedDate = dateRepository.save(date);
+
+            return Optional.of(convertToDateDTO(savedDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
+import com.wisercat.wisercatproovbackend.datatransferobjects.FilterDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
 import com.wisercat.wisercatproovbackend.services.TitleServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,13 @@ public class TitleController {
         boolean deleted = titleService.deleteTitle(id);
         if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         return ResponseEntity.ok(true);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<TitleDTO> updateFilter(@RequestBody TitleDTO titleDTO) {
+        Optional<TitleDTO> title = titleService.updateTitle(titleDTO);
+        if (title.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(title.get());
     }
 }

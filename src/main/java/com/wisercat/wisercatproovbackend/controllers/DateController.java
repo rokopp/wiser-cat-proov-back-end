@@ -2,12 +2,14 @@ package com.wisercat.wisercatproovbackend.controllers;
 
 import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
 import com.wisercat.wisercatproovbackend.datatransferobjects.DateDTO;
+import com.wisercat.wisercatproovbackend.datatransferobjects.FilterDTO;
 import com.wisercat.wisercatproovbackend.services.DateServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +58,13 @@ public class DateController {
         boolean deleted = dateService.deleteDate(id);
         if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         return ResponseEntity.ok(true);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<DateDTO> updateDate(@RequestBody DateDTO dateDTO) {
+        Optional<DateDTO> date = dateService.updateDate(dateDTO);
+        if (date.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(date.get());
     }
 }

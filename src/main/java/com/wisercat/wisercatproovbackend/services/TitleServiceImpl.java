@@ -1,5 +1,6 @@
 package com.wisercat.wisercatproovbackend.services;
 
+import com.wisercat.wisercatproovbackend.database.Amount;
 import com.wisercat.wisercatproovbackend.database.Filter;
 import com.wisercat.wisercatproovbackend.database.Title;
 import com.wisercat.wisercatproovbackend.datatransferobjects.TitleDTO;
@@ -44,7 +45,24 @@ public class TitleServiceImpl implements TitleService {
 
     @Override
     public Optional<TitleDTO> updateTitle(TitleDTO titleDTO) {
-        return Optional.empty();
+        try {
+            Optional<Title> titleOptional = titleRepository.findById(titleDTO.getId());
+            if (titleOptional.isEmpty()) return Optional.empty();
+            Title title = titleOptional.get();
+
+            String titleCompareCondition = titleDTO.getCompareCondition();
+            String titleText = titleDTO.getText();
+
+            if (titleCompareCondition != null) title.setCompareCondition(titleCompareCondition);
+            if (titleText != null) title.setText(titleText);
+
+            Title savedTitle = titleRepository.save(title);
+
+            return Optional.of(convertToTitleDTO(savedTitle));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override

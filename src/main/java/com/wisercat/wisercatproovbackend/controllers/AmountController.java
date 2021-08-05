@@ -1,6 +1,7 @@
 package com.wisercat.wisercatproovbackend.controllers;
 
 import com.wisercat.wisercatproovbackend.datatransferobjects.AmountDTO;
+import com.wisercat.wisercatproovbackend.datatransferobjects.FilterDTO;
 import com.wisercat.wisercatproovbackend.services.AmountServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,13 @@ public class AmountController {
         boolean deleted = amountService.deleteAmount(id);
         if (!deleted) return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         return ResponseEntity.ok(true);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<AmountDTO> updateAmount(@RequestBody AmountDTO amountDTO) {
+        Optional<AmountDTO> amount = amountService.updateAmount(amountDTO);
+        if (amount.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(amount.get());
     }
 }

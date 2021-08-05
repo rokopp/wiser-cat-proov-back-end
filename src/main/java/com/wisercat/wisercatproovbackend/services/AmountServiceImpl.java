@@ -44,7 +44,24 @@ public class AmountServiceImpl implements AmountService {
 
     @Override
     public Optional<AmountDTO> updateAmount(AmountDTO amountDTO) {
-        return Optional.empty();
+        try {
+            Optional<Amount> amountOptional = amountRepository.findById(amountDTO.getId());
+            if (amountOptional.isEmpty()) return Optional.empty();
+            Amount amount = amountOptional.get();
+
+            String amountCompareCondition = amountDTO.getCompareCondition();
+            Long amountNumber = amountDTO.getNumber();
+
+            if (amountCompareCondition != null) amount.setCompareCondition(amountCompareCondition);
+            if (amountNumber != null) amount.setNumber(amountNumber);
+
+            Amount savedAmount = amountRepository.save(amount);
+
+            return Optional.of(convertToAmountDTO(savedAmount));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override
